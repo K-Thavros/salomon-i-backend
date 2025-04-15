@@ -8,14 +8,12 @@ NOTION_SECRET = os.getenv("NOTION_SECRET")
 
 @app.post("/")
 async def verify(request: Request):
-    headers = request.headers
-    incoming_secret = headers.get("x-notion-secret")
-
-    if incoming_secret != NOTION_SECRET:
-        return {"error": "Token de verificación no válido"}
-
     body = await request.json()
     challenge = body.get("challenge")
+    token_recibido = body.get("verification_token")
+
+    if token_recibido != NOTION_SECRET:
+        return {"error": "Token de verificación no válido"}
 
     if challenge:
         return JSONResponse(content={"challenge": challenge})
