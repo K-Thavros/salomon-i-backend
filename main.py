@@ -11,6 +11,7 @@ async def verify(request: Request):
     body = await request.json()
     challenge = body.get("challenge")
     token_recibido = body.get("verification_token")
+    print("🔐 TOKEN RECIBIDO DESDE NOTION:", token_recibido)
 
     if token_recibido != NOTION_SECRET:
         return {"error": "Token de verificación no válido"}
